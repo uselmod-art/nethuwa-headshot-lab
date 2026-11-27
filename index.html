@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090611">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NETHUWA LAB">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>NETHUWA iOS Headshot Lab</title>
+<style>
+:root{--bg:#090611;--panel:#171126;--panel2:#211735;--purple:#a855f7;--pink:#ec4899;--white:#f7f3ff;--muted:#b8aeca;--line:#38284e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#32134d 0,transparent 35%),var(--bg);color:var(--white);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:20px 15px 40px}.hero{padding:22px 18px;border:1px solid #633b83;border-radius:22px;background:linear-gradient(135deg,#211033,#11101b 70%);box-shadow:0 12px 40px #0008}
+.kicker{font-size:11px;letter-spacing:3px;color:#d8a7ff;font-weight:800}.hero h1{font-size:30px;line-height:1.05;margin:9px 0}.hero p{color:var(--muted);margin:0;font-size:13px}.tag{display:inline-block;margin-top:14px;padding:6px 10px;border-radius:20px;background:#54247a;color:#f5e8ff;font-size:11px;font-weight:800}
+.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:17px;margin-top:14px}
+h2{font-size:16px;margin:0 0 13px}.small{font-size:12px;color:var(--muted);line-height:1.5}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0 7px;font-size:13px}.val{font-weight:900;color:#e7c8ff;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--purple)}select{width:100%;padding:12px;background:#0e0a17;color:white;border:1px solid #60417c;border-radius:12px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:13px;background:#100b1a;border:1px solid #39264d;border-radius:14px}.stat b{display:block;font-size:24px;color:#e6c5ff}.stat span{font-size:11px;color:var(--muted)}
+button{border:0;border-radius:12px;padding:12px 14px;background:linear-gradient(90deg,var(--purple),var(--pink));color:white;font-weight:900;font-size:13px;cursor:pointer}.secondary{background:#2b203b;border:1px solid #59406f}.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+#arena{height:250px;position:relative;overflow:hidden;border-radius:14px;background:radial-gradient(circle at 50% 45%,#302044,#100b18 75%);border:1px solid #49315e;touch-action:none}
+.target{position:absolute;width:44px;height:44px;border:2px solid #ffb4f1;border-radius:50%;box-shadow:0 0 18px #d946ef88;display:grid;place-items:center;transform:translate(-50%,-50%);left:50%;top:45%;font-size:10px;font-weight:900;color:#fff}
+.target:after{content:"";width:9px;height:9px;border-radius:50%;background:#f0abfc;position:absolute}
+.cross{position:absolute;width:34px;height:34px;border:1px solid #a78bfa;border-radius:50%;left:50%;top:80%;transform:translate(-50%,-50%);pointer-events:none}
+.cross:before,.cross:after{content:"";position:absolute;background:#c4b5fd}.cross:before{height:1px;width:48px;left:-8px;top:16px}.cross:after{width:1px;height:48px;left:16px;top:-8px}
+#result{font-size:13px;color:#e9d5ff;margin-top:10px;min-height:20px}
+.note{border-left:3px solid var(--pink);padding:10px 12px;background:#21152b;border-radius:8px;color:#d9cce7;font-size:12px;line-height:1.5;margin-top:12px}
+footer{text-align:center;color:#766987;font-size:10px;margin-top:20px}
+</style>
+</head>
+<body><main class="wrap">
+<section class="hero"><div class="kicker">NETHUWA • iOS EDITION</div><h1>HEADSHOT<br>LAB</h1><p>iPhone SE 2 · 2-Finger Drag Practice & Sensitivity Tuner</p><div class="tag">PURPLE × BLACK × WHITE</div></section>
+<section class="card"><h2>01 / Sensitivity Tuner</h2><div class="small">ඔයාගේ current in-game sensitivity එකට අනුව starting values tune කරගන්න. මේ අගයන් game එකට auto apply වෙන්නේ නැහැ.</div>
+<div class="row"><label for="general">Current General</label><span class="val" id="gval">195</span></div><input id="general" type="range" min="0" max="200" value="195">
+<div class="row"><label for="problem">Aim issue</label></div><select id="problem"><option value="body">Body එකට වදිනවා</option><option value="over">Head එකට උඩින් යනවා</option><option value="shake">Aim එක shake වෙනවා</option><option value="slow">Drag එක slow</option></select>
+<div class="btnrow"><button onclick="calculate()">GENERATE PROFILE</button><button class="secondary" onclick="resetAll()">RESET</button></div>
+<div class="grid" style="margin-top:14px"><div class="stat"><b id="outG">195</b><span>GENERAL</span></div><div class="stat"><b id="outR">190</b><span>RED DOT</span></div><div class="stat"><b id="out2">178</b><span>2X SCOPE</span></div><div class="stat"><b id="out4">160</b><span>4X SCOPE</span></div></div>
+<div class="btnrow"><button class="secondary" onclick="copyProfile()">COPY PROFILE</button></div><div id="copyMsg" class="small"></div>
+<div class="note">Free Fire → Settings → Sensitivity වෙත ගිහින් මේ values අතින් දාන්න. එක match එකකින් පස්සේ 3–5 points බැගින් පමණක් වෙනස් කරලා test කරන්න.</div>
+</section>
+<section class="card"><h2>02 / Drag Practice</h2><p class="small">Target එක මත tap/drag කරලා tracking practice කරන්න. මෙය Free Fire එකට සම්බන්ධ නැති training area එකක්.</p>
+<div id="arena"><div class="target" id="target">HEAD</div><div class="cross" id="cross"></div></div>
+<div class="row"><span>Hits</span><span class="val" id="hits">0</span></div><div class="row"><span>Attempts</span><span class="val" id="attempts">0</span></div><div class="row"><span>Accuracy</span><span class="val" id="accuracy">0%</span></div><div id="result">Target එකට tap කරන්න හෝ drag කරන්න.</div>
+<div class="btnrow"><button class="secondary" onclick="moveTarget()">NEW TARGET</button><button class="secondary" onclick="resetPractice()">RESET SCORE</button></div>
+</section>
+<section class="card"><h2>03 / iPhone SE 2 Starting Setup</h2><div class="grid"><div class="stat"><b>2</b><span>FINGER HUD</span></div><div class="stat"><b>53%</b><span>FIRE BUTTON SIZE</span></div><div class="stat"><b>60Hz</b><span>DISPLAY</span></div><div class="stat"><b>Default</b><span>AIM PRECISION</span></div></div><p class="small" style="margin-top:12px">Graphics: Smooth · High FPS: available highest option · Left Fire Button: Always (ඔයාට පහසු නම්).</p></section>
+<footer>NETHUWA HEADSHOT LAB · Practice tool only · No game injection / no auto-aim</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let hits=0,attempts=0,dragging=false,hitThisTouch=false;
+$('general').addEventListener('input',()=>{$('gval').textContent=$('general').value;});
+function clamp(v){return Math.max(0,Math.min(200,v))}
+function calculate(){
+ let g=+$('general').value,issue=$('problem').value,delta={body:5,over:-7,shake:-10,slow:4}[issue];
+ let G=clamp(g+delta),R=clamp(G-5),S2=clamp(G-17),S4=clamp(G-35);
+ $('outG').textContent=G;$('outR').textContent=R;$('out2').textContent=S2;$('out4').textContent=S4;
+ $('copyMsg').textContent='Profile ready — game settings වලට අතින් ඇතුළත් කරන්න.';
+ window.profile=`General ${G} | Red Dot ${R} | 2X ${S2} | 4X ${S4} | Sniper 95 | Free Look 130`;
+}
+function resetAll(){$('general').value=195;$('gval').textContent=195;$('problem').value='body';calculate();}
+async function copyProfile(){if(!window.profile)calculate();try{await navigator.clipboard.writeText(window.profile);$('copyMsg').textContent='Copied: '+window.profile;}catch(e){$('copyMsg').textContent=window.profile;}}
+function moveTarget(){let a=$('arena'),t=$('target');let x=10+Math.random()*80,y=15+Math.random()*70;t.style.left=x+'%';t.style.top=y+'%';}
+function score(e){let t=$('target').getBoundingClientRect(),x=e.clientX,y=e.clientY;let d=Math.hypot(x-(t.left+t.width/2),y-(t.top+t.height/2));attempts++;if(d<t.width*.75){hits++;$('result').textContent='Nice! Target hit 🔥';moveTarget();}else{$('result').textContent='Keep practising — drag closer to HEAD.';}updateScore();}
+function updateScore(){$('hits').textContent=hits;$('attempts').textContent=attempts;$('accuracy').textContent=(attempts?Math.round(hits/attempts*100):0)+'%';}
+$('arena').addEventListener('pointerdown',e=>{dragging=true;hitThisTouch=false;$('arena').setPointerCapture(e.pointerId);score(e);});
+$('arena').addEventListener('pointermove',e=>{if(!dragging)return;let c=$('cross'),r=$('arena').getBoundingClientRect();c.style.left=(e.clientX-r.left)+'px';c.style.top=(e.clientY-r.top)+'px';let t=$('target').getBoundingClientRect();if(!hitThisTouch&&Math.hypot(e.clientX-(t.left+t.width/2),e.clientY-(t.top+t.height/2))<t.width*.55){hits++;hitThisTouch=true;$('result').textContent='Tracking hit 🔥';moveTarget();updateScore();}});
+$('arena').addEventListener('pointerup',()=>dragging=false);$('arena').addEventListener('pointercancel',()=>dragging=false);
+function resetPractice(){hits=0;attempts=0;updateScore();$('result').textContent='Score reset. Try again!';moveTarget();}
+calculate();
+</script><script>if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }</script>
+</body></html>
